@@ -8,9 +8,11 @@
 			$password = $getFromU->checkInput($password);
 
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				$error = "Invalida email format";
+				$error = "Invalid email format";
 			} else {
-
+				if($getFromU->login($email, $password) == false) {
+					$error = "The email or password is incorrect!";
+				}
 			}
 
 		} else {
@@ -32,11 +34,11 @@
 		</li>
 		<?php
 			if(isset($error)) {
-				echo 	'<li class="error-li">
-						  <div class="span-fp-error">' .$error. '</div>
+				echo '<li class="error-li">
+						  <div class="span-fp-error">'.$error.'</div>
 						 </li>';
 			}
-		?>
+		?>	
 		  
 	</ul>
 </form>

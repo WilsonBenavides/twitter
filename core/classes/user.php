@@ -7,9 +7,9 @@ class User {
 	}
 
 	public function checkInput($var) {
-		$var = htmlspecialchars($var);
-		$var = trim($var);
 		$var = stripcslashes($var);
+		$var = trim($var);
+		$var = htmlspecialchars($var);
 		return $var;
 	}
 
@@ -29,6 +29,18 @@ class User {
 		} else {
 			return false;
 		}
+	}
+
+	public function register($email, $screenName, $password) {
+		$stmt = $this->pdo->prepare("INSERT INTO `users` (`email`, `password`, `screenName`, `profileImage`, `profileCover`) VALUES (:email, :password, :screenName, 'assets/images/defaultProfileImage.png', 'assets/images/defaultCoverImage.png')");
+		$stmt->bindParam(":email", $email, PDO::PARAM_STR);
+		$userPass = md5($password);
+		$stmt->bindParam(":password", $userPass, PDO::PARAM_STR);
+		$stmt->bindParam(":screenName", $screenName, PDO::PARAM_STR);
+		$stmt->execute();
+
+		$user_id = $this->pdo->lastInsertId();
+		$_SESSION['user_id'] = $user_id;
 	}
 
 	public function userData($user_id) {

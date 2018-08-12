@@ -2,6 +2,7 @@
 	include 'core/init.php';
 	$user_id = $_SESSION['user_id'];
 	$user = $getFromU->userData($user_id);
+	$getFromU->update('users', $user_id, array('username' => 'danynew'));
 ?>
 <!--
    This template created by Meralesson.com 
